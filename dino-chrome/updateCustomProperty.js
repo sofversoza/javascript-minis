@@ -1,6 +1,5 @@
 // helper functions to get, set, update custom css value easier
 
-
 // elem-ent where we're getting the property from (ex: ground)
 // prop-erty we want to get (ex: --left)
 export function getCustomProperty(elem, prop) {

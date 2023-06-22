@@ -1,5 +1,6 @@
 import { updateGround, setupGround } from "./ground.js"
-import { updateDino, setupDino } from "./dino.js"
+import { updateDino, setupDino, getDinoRect, setDinoLose } from "./dino.js"
+import { updateCactus, setupCactus, getCactusRects } from "./cactus.js"
 
 const WORLD_WIDTH = 120
 const WORLD_HEIGHT = 25
@@ -36,11 +37,32 @@ function update(time) {
 
   updateGround(delta, speedScale)
   updateDino(delta, speedScale)
+  updateCactus(delta, speedScale)
   updateSpeedScale(delta)
   updateScore(delta)
 
+  // calling return here bc we dont want to call this function again on 2nd call below
+  if (checkLose()) return handleLose() 
+
   lastTime = time
   window.requestAnimationFrame(update)  // 2nd call to keep this function on loop
+}
+
+// to find out if we lost
+function checkLose() {
+  const dinoRect = getDinoRect()
+  // some: if any of these cactuses return true for this value, then we know to return true for the entire some (dino runs into atleast 1 cactus--we lose)
+  return getCactusRects().some(rect => isCollision(rect, dinoRect))
+}
+
+function isCollision(rect1, rect2) {
+  // does any portions of these rectangles collide or overlap? if all true then yes
+  return (
+    rect1.left < rect2.right && 
+    rect1.top < rect2.bottom && 
+    rect1.right > rect2.left && 
+    rect1.bottom > rect2.top
+  )  
 }
 
 // to update the speed of the game as you progress
@@ -61,10 +83,20 @@ function handleStart() {
   score = 0                              // reset score everytime the game restarts
   setupGround()                          // our ground starts moving on loop
   setupDino()                            // dino starts animation
+  setupCactus()                          // cactus starts animation
   startScreenElem.classList.add("hide")  // hide start screen once the game starts (css)
   window.requestAnimationFrame(update)   // 1st call to start the loop 
 }
 
+function handleLose() {
+  setDinoLose()
+  
+  // inside a setTimeout just incase if you were pressing the space bar as you lost, it wont restart the game right away
+  setTimeout(() => {
+    document.addEventListener("keydown", handleStart, { once: true })
+    startScreenElem.classList.remove("hide")    // to show start game again
+  }, 100)
+}
 
 function setPixelToWorldScale() {
   let worldToPixelScale

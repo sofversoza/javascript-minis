@@ -34,6 +34,15 @@ export function updateDino(delta, speedScale) {
   handleJump(delta)
 }
 
+// to lose the game (has the dino run into a cactus?): we'll have to get the dimensions of our dino & cactus to find out. getBoundingClientRect() gives us a rectangle w/ top,left,right,bottom position for our dino so we can interact with it
+export function getDinoRect() {
+  return dinoElem.getBoundingClientRect()
+}
+
+export function setDinoLose() {
+  dinoElem.src = "imgs/dino-lose.png"
+}
+
 function handleRun(delta, speedScale) {
   // if the dino is jumping we dont want to change its animation
   if (isJumping) {    
