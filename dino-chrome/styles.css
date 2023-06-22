@@ -1,0 +1,59 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  user-select: none; /* user cant highlight anything on screen */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.world {
+  overflow: hidden;
+  position: relative;
+}
+
+.score {
+  position: absolute;
+  font-size: 3vmin; /* scales with screen size */
+  right: 1vmin;
+  top: 1vmin;
+}
+
+.start-screen {
+  position: absolute;
+  font-size: 5vmin;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* w/o this it wont be centered */
+}
+
+.hide {
+  display: none;
+}
+
+.ground {
+  --left: 0; /* defaults to 0 */
+  position: absolute;
+  width: 300%;
+  bottom: 0;
+  left: calc(var(--left) * 1%); /* comes from JS */
+}
+
+.dino {
+  --bottom: 0; /* defaults to 0 */
+  position: absolute;
+  left: 1%;
+  height: 30%;
+  bottom: calc(var(--bottom) * 1%); /* comes from JS */
+}
+
+.cactus {
+  position: absolute;
+  left: calc(var(--left) * 1%); /* comes from JS */
+  height: 30%;
+  bottom: 0;
+}
