@@ -1,4 +1,8 @@
-import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
+import { 
+  getCustomProperty, 
+  incrementCustomProperty, 
+  setCustomProperty 
+} from "./updateCustomProperty.js"
 
 const SPEED = 0.05                 // has to be the same speed as the ground
 const CACTUS_INTERVAL_MIN = 500    // how long between summoning a cactus on the screen

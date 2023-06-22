@@ -21,7 +21,7 @@ document.addEventListener("keydown", handleStart, { once: true })
 let lastTime
 let speedScale
 let score
-
+ 
 // Update loop: runs every single frame & updates the position of everything on the screen
 // takes in the time of when the program started
 function update(time) {

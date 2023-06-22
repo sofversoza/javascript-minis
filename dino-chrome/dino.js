@@ -1,5 +1,3 @@
-// to position our dino to move to the right (run), and jump up & down
-
 import { 
   getCustomProperty, 
   incrementCustomProperty, 
