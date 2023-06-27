@@ -1,5 +1,5 @@
-// constellation effect (connecting particles together with a line)
-// check out the other 2 js files for some more info & explanation
+// on mousemove, we get a burst of rainbow particles following the cursor
+// on click, we get a burst of rainbow particles
 
 const canvas = document.getElementById("canvas1")
 const ctx = canvas.getContext("2d")
@@ -13,11 +13,12 @@ window.addEventListener("resize", function(){
   canvas.height = window.innerHeight; 
 })
 
+// to get the users x & y coordinates so we apply an event listener & draw on the canvas
 const mouse = {
   x: undefined,
   y: undefined,
 }
-
+// draws a circle where we clicked on the canvas
 canvas.addEventListener("click", function(e) {
   mouse.x = e.x
   mouse.y = e.y
@@ -26,6 +27,7 @@ canvas.addEventListener("click", function(e) {
   }
 })
 
+// a paintbrush made of circles as we move the mouse on the canvas
 canvas.addEventListener("mousemove", function(e) {
   mouse.x = e.x
   mouse.y = e.y
@@ -43,11 +45,13 @@ class Particle {
     this.speedY = Math.random() * 3 - 1.5        // could be - or + num
     this.color = "hsl(" + hue + ", 100%, 50%)"   // rainbow
   }
+  // update x & y coordinates based on speedX & speedY values
   update() {
     this.x += this.speedX
     this.y += this.speedY
-    if (this.size > 0.2) this.size -= 0.1        // shrink as they move around
+    if (this.size > 0.2) this.size -= 0.1       // shrink as they move around
   }
+  // takes the updated coordinates & draws a circle
   draw() {
     ctx.fillStyle = this.color
     ctx.beginPath()    
@@ -56,26 +60,11 @@ class Particle {
   }
 }
 
+// trigger update & draw methods for each Particles
 function handleParticles() {
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update()
     particlesArray[i].draw()
-
-    for (let j = i; j < particlesArray.length; j++) {
-      // calculate distance between 2 points in canvas (pythagorean theorem)
-      const dx = particlesArray[i].x - particlesArray[j].x
-      const dy = particlesArray[i].y - particlesArray[j].y
-      const distance = Math.sqrt(dx * dx + dy * dy)        // between particle i & j
-
-      if (distance < 100) {
-        ctx.beginPath()
-        ctx.strokeStyle = particlesArray[i].color
-        ctx.lineWidth = 0.2
-        ctx.moveTo(particlesArray[i].x, particlesArray[i].y)
-        ctx.lineTo(particlesArray[j].x, particlesArray[j].y)
-        ctx.stroke()
-      }
-    }
 
     // Particles that shrink below certain size to be removed from the particle array
     if (particlesArray[i].size <= 0.3) {
@@ -85,10 +74,14 @@ function handleParticles() {
   }
 }
 
+// will be called over-n-over creating an animation loop (almost like a cool cursor)
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)    // clears the whole canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height)   // clears the whole canvas
   handleParticles()
+  // hue += 5  // controls how fast the color changes
   hue++
-  requestAnimationFrame(animate)      // creates a loop bc were calling this function
+
+  // calls the function we pased as an arg(this func) once, creating a loop
+  requestAnimationFrame(animate)  
 }
 animate()
