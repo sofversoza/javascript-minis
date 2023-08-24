@@ -1,0 +1,35 @@
+.grid {
+  height: 180px;
+  width: 180px;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid div {
+  /* 180 % 9 = 20 */
+  height: 20px;
+  width: 20px;
+}
+
+.ending-block {
+  background-color: tomato;
+}
+
+.starting-block {
+  background-color: slateblue;
+}
+
+.log-left,
+.log-right {
+  background-color: lightblue;
+}
+
+.car-left,
+.car-right {
+  background-color: lightgray;
+}
+
+.frog {
+  background-color: seagreen;
+}
