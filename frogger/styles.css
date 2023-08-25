@@ -20,14 +20,24 @@
   background-color: slateblue;
 }
 
-.log-left,
-.log-right {
+.l1,
+.l2,
+.l3 {
+  background-color: brown;
+}
+
+.l4,
+.l5 {
   background-color: lightblue;
 }
 
-.car-left,
-.car-right {
-  background-color: lightgray;
+.c1 {
+  background-color: navy;
+}
+
+.c2,
+.c3 {
+  background-color: lightgrey;
 }
 
 .frog {
