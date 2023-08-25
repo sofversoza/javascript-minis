@@ -9,13 +9,14 @@ const carsRight = document.querySelectorAll(".car-right")
 
 const gridWidth = 9 //there are 9 squares inside the grid (9x9)
 let currentIndex = 76 //starting point (bottom of grid)
+let currentTime = 20
 let timerID //so we can stop the interval when we lose
+let outcomeTimerID
 
 function moveFrog(e) {
 	//remove frog from its current position/index so it wont leave a trail
 	squares[currentIndex].classList.remove("frog")
 
-	//key comes from e — console.log(e)
 	switch (e.key) {
 		case "ArrowLeft":
 			//move left only if currentIndex isn't divisible by 9
@@ -37,18 +38,21 @@ function moveFrog(e) {
 			}
 			break
 	}
-
 	squares[currentIndex].classList.add("frog")
 }
-document.addEventListener("keyup", moveFrog)
 
 //grabbing logs & cars then passing each one through their own functions
 function autoMoveElements() {
+	currentTime-- //subtract 1
+	timeLeftDisplay.textContent = currentTime
 	logsLeft.forEach((logLeft) => moveLogLeft(logLeft))
 	logsRight.forEach((logRight) => moveLogRight(logRight))
 	carsLeft.forEach((carLeft) => moveCarLeft(carLeft))
 	carsRight.forEach((carRight) => moveCarRight(carRight))
-	lose() //check for lose each time an element moves (every 1 sec)
+}
+
+function checkOutComes() {
+	loseOrWin()
 }
 
 //switching the squares/logs to appear like they're moving to the left
@@ -139,13 +143,50 @@ function moveCarRight(carRight) {
 	}
 }
 
-function lose() {
-	if (squares[currentIndex].classList.contains("c1")) {
-		resultDisplay.textContent = "You got squashed by a car!!!"
-		clearInterval(timerID)
-		squares[currentIndex].classList.remove("frog")
-		document.removeEventListener("keyup", moveFrog)
+function loseOrWin() {
+	switch (true) {
+		case squares[currentIndex].classList.contains("c1"):
+			resultDisplay.textContent = "You got squashed by a car!!!"
+			clearInterval(timerID)
+			clearInterval(outcomeTimerID)
+			squares[currentIndex].classList.remove("frog")
+			document.removeEventListener("keyup", moveFrog)
+			break
+		case squares[currentIndex].classList.contains("l4"):
+		case squares[currentIndex].classList.contains("l5"):
+			resultDisplay.textContent = "You drowned!!!"
+			clearInterval(timerID)
+			clearInterval(outcomeTimerID)
+			squares[currentIndex].classList.remove("frog")
+			document.removeEventListener("keyup", moveFrog)
+			break
+		case currentTime <= 0:
+			resultDisplay.textContent = "You ran out of time!!!"
+			clearInterval(timerID)
+			clearInterval(outcomeTimerID)
+			squares[currentIndex].classList.remove("frog")
+			document.removeEventListener("keyup", moveFrog)
+			break
+		case squares[currentIndex].classList.contains("ending-block"):
+			resultDisplay.textContent = "You successfully crossed!!!"
+			clearInterval(timerID)
+			clearInterval(outcomeTimerID)
+			document.removeEventListener("keyup", moveFrog)
+			break
 	}
 }
 
-timerID = setInterval(autoMoveElements, 1000)
+startPauseBtn.addEventListener("click", () => {
+	//when the program starts timerID is null until we click the start/pause btn
+	if (timerID) {
+		clearInterval(timerID) //clear when game is paused
+		clearInterval(outcomeTimerID) //clear when game is paused
+		outcomeTimerID = null
+		timerID = null
+		document.removeEventListener("keyup", moveFrog) //only move when timer is on
+	} else {
+		timerID = setInterval(autoMoveElements, 1000) //start game & timer
+		outcomeTimerID = setInterval(checkOutComes, 50) //check 4 collisions every 1/2 second
+		document.addEventListener("keyup", moveFrog) //only move once btn is clicked
+	}
+})
