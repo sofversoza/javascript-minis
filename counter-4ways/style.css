@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+input,
+button,
+textarea {
+  font: inherit;
+}
+
+body {
+  background-color: #4f76aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+section {
+  background-color: #fff;
+}
+
+textarea {
+  margin: 20px 0;
+  width: 90%;
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 0.8rem;
+  font-family: inherit;
+}
+
+.counter-multi {
+  position: relative;
+  width: 800px;
+  margin: 30px;
+  overflow: hidden;
+  border-radius: 7px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+#count-items {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 35px;
+  border-bottom: 0.5px solid #cacaca;
+}
+
+.item {
+  /* without this, line seperators ::before wont work */
+  position: relative;
+}
+
+.item:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  background: #cacaca;
+  width: 0.5px;
+  height: 100%;
+  left: -20px;
+}
+
+.item span {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.item p {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: #8f8f8f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#text-container {
+  display: flex;
+  justify-content: center;
+}
