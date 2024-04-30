@@ -12,7 +12,7 @@ let isDrawing = false
 let brushWidth = 3
 let selectedTool = "brush"
 let selectedColor = "#000"
-let prevMouseX, prevMouseY // mousedown pointer values(to get width&height of rectangle)
+let prevMouseX, prevMouseY // mousedown pointer values
 let snapshot
 
 // set background color to white when downloading image (default: transparent)
